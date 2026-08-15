@@ -120,6 +120,23 @@
   .reflect-item .r-date{font-weight:700;font-size:13px;margin-bottom:6px;}
   .reflect-item .r-q{font-size:13px;margin:6px 0 2px;color:#777;}
   .reflect-item .r-a{font-size:13px;color:#333;white-space:pre-wrap;}
+
+  /* 学习路线图 */
+  .rm-root{margin-bottom:16px;}
+  .rm-root:last-child{margin-bottom:0;}
+  .rm-head{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:9px;cursor:pointer;user-select:none;background:#f7f8fc;margin-bottom:2px;}
+  .rm-head:hover{background:#eef2ff;}
+  .rm-arrow{font-size:11px;color:var(--muted);transition:transform .15s;width:12px;display:inline-block;text-align:center;}
+  .rm-arrow.open{transform:rotate(90deg);}
+  .rm-title{flex:1;font-size:14px;font-weight:600;color:#3a4050;}
+  .rm-head .rm-prog{font-size:12px;color:var(--muted);background:#fff;padding:2px 8px;border-radius:99px;border:1px solid var(--line);}
+  .rm-node{margin-top:2px;}
+  .rm-leaf{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:#444;}
+  .rm-leaf:hover{background:#f2f5ff;}
+  .rm-check{width:18px;height:18px;border-radius:5px;border:2px solid #ccd1de;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+  .rm-check.checked{background:var(--primary);border-color:var(--primary);}
+  .rm-check.checked::after{content:"✓";color:#fff;font-size:12px;font-weight:700;}
+  .rm-leaf.done span:last-child{text-decoration:line-through;color:var(--done);}
 </style>
 </head>
 <body>
@@ -151,6 +168,13 @@
     <div class="duration" id="duration"></div>
 
     <div class="quad" id="quad"></div>
+  </div>
+
+  <!-- 学习路线图 -->
+  <div class="card">
+    <h2>🗺️ 学习路线图</h2>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">点父项展开/折叠 · 点子项打勾 · 三套计划已预置</div>
+    <div id="roadmap"></div>
   </div>
 
   <!-- 任务列表 -->
@@ -255,7 +279,60 @@
   const ORDER=['A','B','C','D'];
 
   // ---- 数据 ----
-  let tasks=[], dailyLog={}, reflections={};
+  let tasks=[], dailyLog={}, reflections={}, roadmapDone={};
+  const ROADMAP_KEY='plan-roadmap-v2';
+
+  // 学习路线图（预置计划）
+  const ROADMAP=[
+    {id:'embed',title:'🔌 嵌入式开发（就业主线）',open:true,children:[
+      {id:'embed.c',title:'C 语言基础',children:[
+        {id:'embed.c.ptr',title:'指针与数组'},
+        {id:'embed.c.struct',title:'结构体与联合体'},
+        {id:'embed.c.mem',title:'内存管理（栈/堆/静态区）'},
+        {id:'embed.c.bit',title:'位运算与宏'},
+      ]},
+      {id:'embed.stm32',title:'STM32 外设',children:[
+        {id:'embed.gpio',title:'GPIO（点灯/按键）'},
+        {id:'embed.uart',title:'串口 UART 通信'},
+        {id:'embed.irq',title:'中断与 NVIC'},
+        {id:'embed.timer',title:'定时器'},
+        {id:'embed.pwm',title:'PWM（呼吸灯/电机）'},
+        {id:'embed.adc',title:'ADC 采集'},
+        {id:'embed.i2c',title:'I2C / SPI 通信'},
+      ]},
+      {id:'embed.proj',title:'第一个项目：温湿度监测仪',children:[
+        {id:'embed.p1',title:'DHT11 采集温湿度'},
+        {id:'embed.p2',title:'OLED 屏幕显示'},
+        {id:'embed.p3',title:'串口上传上位机'},
+        {id:'embed.p4',title:'自己画 PCB'},
+      ]},
+      {id:'embed.rtos',title:'FreeRTOS 实时操作系统',children:[
+        {id:'embed.f1',title:'任务创建与调度'},
+        {id:'embed.f2',title:'队列'},
+        {id:'embed.f3',title:'信号量与互斥锁'},
+        {id:'embed.f4',title:'内存管理'},
+      ]},
+      {id:'embed.linux',title:'Linux 嵌入式（进阶）',children:[
+        {id:'embed.l1',title:'Linux 基础命令'},
+        {id:'embed.l2',title:'C 系统编程'},
+        {id:'embed.l3',title:'驱动开发入门'},
+      ]},
+    ]},
+    {id:'english',title:'📖 英语学习',open:true,children:[
+      {id:'eng.word',title:'词汇：四级核心词（每日 30 个）'},
+      {id:'eng.listen',title:'听力：每日 20 分钟精听'},
+      {id:'eng.read',title:'阅读：每日 1 篇真题/外刊'},
+      {id:'eng.write',title:'写作/翻译：每周 2 次练习'},
+      {id:'eng.cet4',title:'目标：大二过英语四级'},
+    ]},
+    {id:'major',title:'📚 专业课（大二）',open:true,children:[
+      {id:'maj.signal',title:'信号与系统（核心·考研必考）'},
+      {id:'maj.analog',title:'模拟电子技术'},
+      {id:'maj.digital',title:'数字电子技术'},
+      {id:'maj.circuit',title:'电路分析'},
+      {id:'maj.math',title:'数学：复变函数 + 概率论'},
+    ]},
+  ];
 
   function load(){
     // 迁移旧数据
@@ -272,6 +349,7 @@
     }
     dailyLog=JSON.parse(localStorage.getItem(LOG_KEY)||'{}');
     reflections=JSON.parse(localStorage.getItem(REFLECT_KEY)||'{}');
+    roadmapDone=JSON.parse(localStorage.getItem(ROADMAP_KEY)||'{}');
   }
   function saveTasks(){localStorage.setItem(TASKS_KEY,JSON.stringify(tasks));}
   function saveLog(){localStorage.setItem(LOG_KEY,JSON.stringify(dailyLog));}
@@ -302,6 +380,7 @@
   function render(){
     renderStats();
     renderQuad();
+    renderRoadmap();
     renderList();
     renderHeat();
     renderAch();
@@ -423,6 +502,62 @@
       div.className='a'+(a.ok?'':' locked');
       div.innerHTML=`<div class="icon">${a.i}</div><div class="nm">${a.n}</div><div class="ds">${a.d}</div>`;
       el.appendChild(div);
+    });
+  }
+
+  // ---- 学习路线图 ----
+  function countDone(node){
+    if(!node.children)return roadmapDone[node.id]?1:0;
+    return node.children.reduce((s,c)=>s+countDone(c),0);
+  }
+  function countTotal(node){
+    if(!node.children)return 1;
+    return node.children.reduce((s,c)=>s+countTotal(c),0);
+  }
+  function saveRoadmap(){localStorage.setItem(ROADMAP_KEY,JSON.stringify(roadmapDone));}
+  function renderNode(node,level){
+    const div=document.createElement('div');
+    div.className='rm-node';
+    div.style.marginLeft=(level*16)+'px';
+    if(node.children){
+      const done=countDone(node),total=countTotal(node);
+      const head=document.createElement('div');
+      head.className='rm-head';
+      head.innerHTML=`<span class="rm-arrow ${node.open?'open':''}">▸</span>
+        <span class="rm-title">${node.title}</span>
+        <span class="rm-prog">${done}/${total}</span>`;
+      head.addEventListener('click',()=>{node.open=!node.open;renderRoadmap();});
+      div.appendChild(head);
+      if(node.open)node.children.forEach(c=>div.appendChild(renderNode(c,level+1)));
+    }else{
+      const done=!!roadmapDone[node.id];
+      const leaf=document.createElement('div');
+      leaf.className='rm-leaf'+(done?' done':'');
+      leaf.innerHTML=`<span class="rm-check ${done?'checked':''}"></span><span>${esc(node.title)}</span>`;
+      leaf.addEventListener('click',()=>{
+        roadmapDone[node.id]=!roadmapDone[node.id];
+        saveRoadmap();renderRoadmap();
+      });
+      div.appendChild(leaf);
+    }
+    return div;
+  }
+  function renderRoadmap(){
+    const el=$('roadmap');
+    el.innerHTML='';
+    ROADMAP.forEach(root=>{
+      const wrap=document.createElement('div');
+      wrap.className='rm-root';
+      const done=countDone(root),total=countTotal(root);
+      const head=document.createElement('div');
+      head.className='rm-head';
+      head.innerHTML=`<span class="rm-arrow ${root.open?'open':''}">▸</span>
+        <span class="rm-title">${root.title}</span>
+        <span class="rm-prog">${done}/${total}</span>`;
+      head.addEventListener('click',()=>{root.open=!root.open;renderRoadmap();});
+      wrap.appendChild(head);
+      if(root.open)root.children.forEach(c=>wrap.appendChild(renderNode(c,1)));
+      el.appendChild(wrap);
     });
   }
 
