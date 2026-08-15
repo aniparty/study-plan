@@ -172,7 +172,10 @@
 
   <!-- 学习路线图 -->
   <div class="card">
-    <h2>🗺️ 学习路线图</h2>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <h2 style="margin-bottom:0;">🗺️ 学习路线图</h2>
+      <button id="import-roadmap" style="padding:7px 14px;border:none;border-radius:9px;background:var(--primary);color:#fff;font-size:13px;cursor:pointer;">📥 一键导入为任务</button>
+    </div>
     <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">点父项展开/折叠 · 点子项打勾 · 三套计划已预置</div>
     <div id="roadmap"></div>
   </div>
@@ -560,6 +563,24 @@
       el.appendChild(wrap);
     });
   }
+  function importRoadmap(){
+    const leaves=[];
+    (function walk(nodes){
+      nodes.forEach(n=>{
+        if(n.children)n.children.forEach(walk);
+        else leaves.push(n);
+      });
+    })(ROADMAP);
+    let added=0;
+    leaves.forEach(l=>{
+      if(tasks.some(t=>t.src===l.id))return;
+      tasks.push({id:uid(),text:l.title,done:false,priority:'B',minutes:30,createdAt:Date.now(),completedAt:null,src:l.id});
+      added++;
+    });
+    saveTasks();render();
+    if(added===0){alert('已经全部导入过了，没有新增任务。');}
+    else{alert(`已导入 ${added} 个任务（默认：重要不紧急 · 30 分钟），可在任务板块里调整。`);}
+  }
 
   // ---- 名言 ----
   const QUOTES=[
@@ -649,6 +670,7 @@
   function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
   // ---- 绑定 ----
+  $('import-roadmap').addEventListener('click',importRoadmap);
   $('add').addEventListener('click',addTask);
   $('input').addEventListener('keydown',e=>{if(e.key==='Enter')addTask();});
   $('list').addEventListener('click',e=>{
