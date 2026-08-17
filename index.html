@@ -487,8 +487,8 @@
     const maxDay=days.reduce((m,k)=>Math.max(m,dailyLog[k]),0);
     const s={totalDone,totalMinutes,maxStreak,maxDay};
     const ACH=[
-      {i:'🏅',n:'首次完成',d:'完成第一个任务',ok:s.totalDone>=1},
-      {i:'🔥',n:'小有坚持',d:'连续打卡 3 天',ok:s.maxStreak>=3},
+      {i:'🏅',n:'首次完成·小宝宝好厉害呀',d:'完成第一个任务',ok:s.totalDone>=1},
+      {i:'🔥',n:'小有坚持·小宝宝好厉害呀',d:'连续打卡 3 天',ok:s.maxStreak>=3},
       {i:'🔥',n:'一周全勤',d:'连续打卡 7 天',ok:s.maxStreak>=7},
       {i:'🌋',n:'月度王者',d:'连续打卡 30 天',ok:s.maxStreak>=30},
       {i:'📚',n:'十项全能',d:'累计完成 10 个',ok:s.totalDone>=10},
