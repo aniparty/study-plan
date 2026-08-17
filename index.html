@@ -22,6 +22,7 @@
     border-left:4px solid var(--primary);border-radius:10px;font-size:14px;color:#445;line-height:1.6;
   }
   .quote .q-author{color:var(--muted);font-size:12px;margin-top:2px;text-align:right;}
+  .quote .q-greet{font-weight:700;color:var(--primary);margin-bottom:4px;}
   .card{background:var(--card);border-radius:14px;padding:18px;margin-top:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
   .card h2{font-size:15px;font-weight:700;margin-bottom:12px;color:#3a4050;}
 
@@ -614,7 +615,7 @@
     const start=new Date(new Date().getFullYear(),0,0);
     const doy=Math.floor((new Date()-start)/86400000);
     const q=QUOTES[doy%QUOTES.length];
-    $('quote').innerHTML=`“${q[0]}”${q[1]?`<div class="q-author">—— ${q[1]}</div>`:''}`;
+    $('quote').innerHTML=`<div class="q-greet">梓菁宝宝来啦</div>“${q[0]}”${q[1]?`<div class="q-author">—— ${q[1]}</div>`:''}`;
   }
 
   // ---- 复盘 ----
