@@ -3,69 +3,165 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我的计划清单</title>
+<title>💗 七夕快乐</title>
 <style>
   :root{
-    --bg:#f5f6fa; --card:#fff; --primary:#4f6ef7; --text:#2f3542;
-    --muted:#9aa0b0; --done:#c0c4cc; --danger:#ff6b6b; --line:#eef0f6;
+    --bg1:#fff7fa; --bg2:#ffe9f1; --bg3:#ffeef6; --bg4:#fff5f9;
+    --card:rgba(255,255,255,.72); --card-border:rgba(255,182,206,.4);
+    --primary:#ff6b9d; --primary2:#ff9a76; --gold:#ffb03a; --violet:#c9a7f0;
+    --text:#5c3b4e; --muted:#bd90a5; --done:#cbb7c2; --danger:#ff5b7f; --line:rgba(214,142,173,.22);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
     font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
-    background:var(--bg); color:var(--text); min-height:100vh; padding:32px 16px 60px;
+    background:
+      radial-gradient(1200px 800px at 85% -10%, #ffd9e6 0%, transparent 55%),
+      radial-gradient(900px 700px at -10% 30%, #ffe3f0 0%, transparent 55%),
+      linear-gradient(160deg,var(--bg1),var(--bg2) 45%,var(--bg3) 75%,var(--bg4));
+    background-attachment:fixed;
+    color:var(--text); min-height:100vh; padding:32px 16px 70px;
+    overflow-x:hidden;
   }
-  .app{max-width:560px;margin:0 auto;}
-  header h1{font-size:24px;font-weight:700;}
-  header .date{color:var(--muted);font-size:13px;margin-top:4px;}
+
+  /* ===== 星空背景 ===== */
+  .sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+  .milkyway{
+    position:absolute;left:-25%;right:-25%;top:16%;height:48%;
+    transform:rotate(-16deg);
+    background:radial-gradient(ellipse at center,rgba(255,190,215,.30),rgba(210,185,255,.22) 45%,transparent 72%);
+    filter:blur(22px);
+  }
+  .moon{
+    position:absolute;top:6%;right:9%;width:64px;height:64px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,#fffbe0,#ffe9a8 58%,#f3c37b);
+    box-shadow:0 0 44px 12px rgba(255,220,160,.45);
+  }
+  .cloud{
+    position:absolute;border-radius:50%;filter:blur(26px);opacity:.6;
+    background:rgba(255,255,255,.7);
+  }
+  .cloud.c1{width:300px;height:70px;top:12%;left:-60px;}
+  .cloud.c2{width:340px;height:80px;top:60%;right:-80px;opacity:.45;}
+
+  /* 流星 */
+  .meteor{position:absolute;top:-10%;width:130px;height:2px;border-radius:99px;opacity:0;
+    background:linear-gradient(90deg,rgba(255,180,120,0),rgba(255,200,150,.95));
+    transform:rotate(-35deg);animation:shoot 7s linear infinite;box-shadow:0 0 6px rgba(255,190,140,.7);}
+  .meteor::before{content:"";position:absolute;left:0;top:-1px;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(255,220,170,.9);}
+  .m1{left:72%;animation-delay:0s;}
+  .m2{left:32%;animation-delay:2.6s;}
+  .m3{left:90%;animation-delay:4.8s;animation-duration:9s;}
+  @keyframes shoot{
+    0%{transform:translate3d(0,0,0) rotate(-35deg);opacity:0;}
+    4%{opacity:1;}
+    9%{opacity:0;}
+    100%{transform:translate3d(-72vw,50vw,0) rotate(-35deg);opacity:0;}
+  }
+
+  /* 鹊桥 + 牵牛织女星 */
+  .bridge-area{position:absolute;top:2%;left:50%;transform:translateX(-50%);width:min(560px,92%);height:150px;opacity:.9;pointer-events:none;}
+  .bridge-svg{position:absolute;inset:0;width:100%;height:100%;}
+  .b-path{fill:none;stroke:rgba(255,150,185,.5);stroke-width:2;stroke-dasharray:7 9;}
+  .b-path2{fill:none;stroke:rgba(255,205,150,.55);stroke-width:1.6;stroke-dasharray:2 14;stroke-dashoffset:3;}
+  .b-star{fill:#ffb03a;filter:drop-shadow(0 0 6px rgba(255,170,50,.95));animation:glow 2.6s ease-in-out infinite;}
+  .b-dot{fill:#fff;filter:drop-shadow(0 0 3px rgba(255,150,185,.8));}
+  .magpie{position:absolute;font-size:16px;transform:translate(-50%,-50%);animation:bob 3s ease-in-out infinite;filter:drop-shadow(0 0 3px rgba(255,255,255,.9));}
+  .b-lbl{position:absolute;bottom:2px;font-size:11px;font-family:"STKaiti","KaiTi",serif;color:#d46a92;letter-spacing:2px;}
+  .lbl-l{left:6%;}
+  .lbl-r{right:6%;}
+  @keyframes glow{0%,100%{opacity:.55;}50%{opacity:1;}}
+  @keyframes bob{0%,100%{transform:translate(-50%,-50%) translateY(0);}50%{transform:translate(-50%,-50%) translateY(-4px);}}
+
+  #stars{position:absolute;inset:0;}
+  .star{position:absolute;border-radius:50%;opacity:.8;box-shadow:0 0 6px rgba(255,150,180,.6);animation:twinkle 3s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:.15;transform:scale(.75);}50%{opacity:1;transform:scale(1.15);}}
+  .heart{position:absolute;bottom:-40px;opacity:0;pointer-events:none;animation:floatUp 13s linear infinite;}
+  @keyframes floatUp{
+    0%{transform:translateY(0) rotate(-10deg);opacity:0;}
+    12%{opacity:.7;}
+    85%{opacity:.5;}
+    100%{transform:translateY(-112vh) rotate(12deg);opacity:0;}
+  }
+
+  .app{max-width:600px;margin:0 auto;position:relative;z-index:1;}
+
+  /* ===== 头部 ===== */
+  header{text-align:center;}
+  header h1{
+    font-size:28px;font-weight:800;letter-spacing:1px;
+    background:linear-gradient(120deg,#f58ab2,#ff9a76 50%,#b07ee0);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  header .sub{
+    margin-top:6px;font-size:13px;color:#d17d9d;letter-spacing:2px;
+  }
+  header .date{color:var(--muted);font-size:13px;margin-top:8px;}
   .quote{
-    margin-top:12px;padding:12px 16px;background:linear-gradient(135deg,#eef2ff,#f5f7ff);
-    border-left:4px solid var(--primary);border-radius:10px;font-size:14px;color:#445;line-height:1.6;
+    margin-top:14px;padding:14px 16px;
+    background:linear-gradient(135deg,rgba(255,183,205,.28),rgba(210,185,255,.22));
+    border:1px solid rgba(255,150,185,.35);
+    border-left:4px solid var(--primary);border-radius:12px;
+    font-size:14px;color:#6b4558;line-height:1.65;text-align:left;
+    box-shadow:0 4px 24px rgba(255,150,185,.14);
   }
-  .quote .q-author{color:var(--muted);font-size:12px;margin-top:2px;text-align:right;}
-  .quote .q-greet{font-weight:700;color:var(--primary);margin-bottom:4px;}
-  .card{background:var(--card);border-radius:14px;padding:18px;margin-top:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
-  .card h2{font-size:15px;font-weight:700;margin-bottom:12px;color:#3a4050;}
+  .quote .q-author{color:var(--muted);font-size:12px;margin-top:4px;text-align:right;}
+  .quote .q-greet{font-weight:700;color:#e0608d;margin-bottom:4px;font-size:15px;}
 
-  /* 添加任务 */
+  .card{
+    background:var(--card);border:1px solid var(--card-border);border-radius:16px;
+    padding:18px;margin-top:16px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    box-shadow:0 8px 28px rgba(214,142,173,.16);
+  }
+  .card h2{font-size:15px;font-weight:700;margin-bottom:12px;color:#7a4b60;}
+
+  /* ===== 添加任务 ===== */
   .add-row{display:flex;gap:8px;flex-wrap:wrap;}
-  .add-row input[type=text]{flex:1;min-width:180px;padding:12px 14px;border:1px solid #e3e6ee;border-radius:10px;font-size:15px;outline:none;}
-  .add-row input:focus{border-color:var(--primary);}
+  .add-row input[type=text]{flex:1;min-width:180px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;outline:none;background:rgba(255,255,255,.8);color:var(--text);}
+  .add-row input[type=text]::placeholder{color:#d3a9bb;}
+  .add-row input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(255,107,157,.15);}
   .add-row select,.add-row input[type=number]{
-    padding:12px;border:1px solid #e3e6ee;border-radius:10px;font-size:14px;outline:none;background:#fff;
+    padding:12px;border:1px solid var(--line);border-radius:10px;font-size:14px;outline:none;
+    background:rgba(255,255,255,.8);color:var(--text);
   }
+  .add-row select option{background:#fff;color:#5c3b4e;}
   .add-row input[type=number]{width:86px;}
-  .add-row button{padding:12px 20px;border:none;border-radius:10px;background:var(--primary);color:#fff;font-size:15px;cursor:pointer;}
-  .add-row button:hover{opacity:.9;}
+  .add-row button{
+    padding:12px 20px;border:none;border-radius:10px;color:#fff;font-size:15px;cursor:pointer;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    box-shadow:0 4px 16px rgba(255,107,157,.35);
+  }
+  .add-row button:hover{opacity:.92;transform:translateY(-1px);}
 
-  /* 统计 */
+  /* ===== 统计 ===== */
   .stats{display:flex;align-items:center;gap:12px;margin-top:14px;}
-  .progress{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden;}
-  .progress .bar{height:100%;background:var(--primary);width:0;transition:width .3s;}
+  .progress{flex:1;height:8px;background:rgba(214,142,173,.18);border-radius:99px;overflow:hidden;}
+  .progress .bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--gold));width:0;transition:width .3s;box-shadow:0 0 10px rgba(255,176,58,.5);}
   .stats .num{font-size:13px;color:var(--muted);white-space:nowrap;}
-  .duration{font-size:13px;color:#666;margin-top:10px;}
+  .duration{font-size:13px;color:#9a6f83;margin-top:10px;}
 
-  /* 四象限 */
+  /* ===== 四象限 ===== */
   .quad{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
   .quad .q{
     border-radius:10px;padding:8px 10px;font-size:12px;color:#fff;
     display:flex;justify-content:space-between;align-items:center;
+    box-shadow:0 2px 10px rgba(214,142,173,.25);
   }
   .quad .q span:last-child{font-weight:700;}
 
-  /* 筛选 */
+  /* ===== 筛选 ===== */
   .filters{display:flex;gap:8px;margin-bottom:4px;flex-wrap:wrap;}
-  .filters button{padding:6px 13px;border:1px solid #e3e6ee;border-radius:99px;background:#fff;color:var(--muted);cursor:pointer;font-size:12px;}
-  .filters button.active{background:var(--primary);border-color:var(--primary);color:#fff;}
+  .filters button{padding:6px 13px;border:1px solid var(--line);border-radius:99px;background:rgba(255,255,255,.6);color:var(--muted);cursor:pointer;font-size:12px;}
+  .filters button.active{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:#fff;}
   .pfilters{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
-  .pfilters button{padding:5px 11px;border:1px solid #e3e6ee;border-radius:99px;background:#fff;color:var(--muted);cursor:pointer;font-size:12px;}
-  .pfilters button.active{border-width:2px;font-weight:600;}
+  .pfilters button{padding:5px 11px;border:1px solid var(--line);border-radius:99px;background:rgba(255,255,255,.6);color:var(--muted);cursor:pointer;font-size:12px;}
+  .pfilters button.active{border-width:2px;font-weight:600;color:#e0608d;border-color:var(--primary);}
 
-  /* 任务列表 */
+  /* ===== 任务列表 ===== */
   ul{list-style:none;margin-top:12px;}
-  li{display:flex;align-items:center;gap:10px;padding:12px 12px;border-radius:10px;margin-bottom:8px;background:#fafbfd;border:1px solid var(--line);}
+  li{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;margin-bottom:8px;background:rgba(255,255,255,.6);border:1px solid var(--line);}
   li.done .text{text-decoration:line-through;color:var(--done);}
-  .check{width:22px;height:22px;border-radius:6px;border:2px solid #ccd1de;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-  .check.checked{background:var(--primary);border-color:var(--primary);}
+  .check{width:22px;height:22px;border-radius:6px;border:2px solid #e6bccb;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+  .check.checked{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;box-shadow:0 0 10px rgba(255,107,157,.5);}
   .check.checked::after{content:"✓";color:#fff;font-size:14px;font-weight:700;}
   .text{flex:1;font-size:14px;word-break:break-all;}
   .badge{font-size:11px;padding:2px 7px;border-radius:6px;color:#fff;white-space:nowrap;flex-shrink:0;}
@@ -74,76 +170,140 @@
   .del:hover{color:var(--danger);}
   .empty{text-align:center;color:var(--muted);padding:28px 0;font-size:14px;}
 
-  /* 热力图 */
+  /* ===== 热力图 ===== */
   .heat-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
   .heat-head .nav{display:flex;gap:6px;align-items:center;}
-  .heat-head .nav button{border:1px solid #e3e6ee;background:#fff;border-radius:8px;cursor:pointer;padding:4px 10px;color:#666;}
+  .heat-head .nav button{border:1px solid var(--line);background:rgba(255,255,255,.6);border-radius:8px;cursor:pointer;padding:4px 10px;color:#a5798e;}
   .heat-head .title{font-weight:600;font-size:14px;}
   .weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px;}
   .weekdays span{font-size:11px;color:var(--muted);text-align:center;}
   .heat{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-  .heat-cell{aspect-ratio:1;border-radius:6px;font-size:11px;display:flex;align-items:center;justify-content:center;color:#333;background:#eef0f6;cursor:default;}
+  .heat-cell{aspect-ratio:1;border-radius:6px;font-size:11px;display:flex;align-items:center;justify-content:center;color:#c78aa5;background:#fff0f4;cursor:default;}
   .heat-cell.today{outline:2px solid var(--primary);}
-  .lvl1{background:#c6e0b4;}
-  .lvl2{background:#92cd96;}
-  .lvl3{background:#4aa96c;}
-  .lvl4{background:#1f7a4d;color:#fff;}
+  .lvl1{background:#ffd9e4;color:#b06b86;}
+  .lvl2{background:#ffb6c9;color:#8a3f5c;}
+  .lvl3{background:#ff8fb0;color:#fff;}
+  .lvl4{background:#ffb03a;color:#fff;box-shadow:0 0 10px rgba(255,176,58,.55);}
   .legend{display:flex;align-items:center;gap:6px;justify-content:flex-end;font-size:11px;color:var(--muted);margin-top:8px;}
   .legend .sw{width:12px;height:12px;border-radius:3px;}
 
-  /* 成就墙 */
+  /* ===== 成就墙 ===== */
   .ach{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-  .ach .a{border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center;background:#fafbfd;}
-  .ach .a .icon{font-size:24px;}
-  .ach .a .nm{font-size:12px;font-weight:600;margin-top:4px;}
+  .ach .a{border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center;background:rgba(255,255,255,.55);}
+  .ach .a .icon{font-size:24px;filter:drop-shadow(0 0 6px rgba(255,158,203,.4));}
+  .ach .a .nm{font-size:12px;font-weight:600;margin-top:4px;color:#7a4b60;}
   .ach .a .ds{font-size:10px;color:var(--muted);margin-top:2px;}
   .ach .a.locked{opacity:.4;filter:grayscale(1);}
 
-  /* 复盘 */
+  /* ===== 复盘 ===== */
   .reflect-btns{display:flex;gap:8px;}
-  .reflect-btns button{flex:1;padding:10px;border:1px solid #e3e6ee;border-radius:10px;background:#fff;cursor:pointer;font-size:14px;color:#555;}
-  .reflect-btns button:hover{border-color:var(--primary);color:var(--primary);}
+  .reflect-btns button{flex:1;padding:10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.6);cursor:pointer;font-size:14px;color:#a5798e;}
+  .reflect-btns button:hover{border-color:var(--primary);color:#e0608d;}
 
-  /* 弹窗 */
-  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;}
+  /* ===== 弹窗 ===== */
+  .modal-bg{position:fixed;inset:0;background:rgba(120,60,90,.28);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;}
   .modal-bg.show{display:flex;}
-  .modal{background:#fff;border-radius:14px;padding:22px;max-width:480px;width:100%;max-height:88vh;overflow-y:auto;}
-  .modal h3{font-size:17px;margin-bottom:6px;}
+  .modal{background:#fff8fb;border:1px solid var(--card-border);border-radius:16px;padding:22px;max-width:480px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 16px 48px rgba(214,142,173,.35);}
+  .modal h3{font-size:17px;margin-bottom:6px;color:#7a4b60;}
   .modal .sub{font-size:13px;color:var(--muted);margin-bottom:14px;}
-  .modal label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px;color:#444;}
-  .modal textarea{width:100%;border:1px solid #e3e6ee;border-radius:10px;padding:10px;font-size:14px;min-height:70px;resize:vertical;outline:none;font-family:inherit;}
+  .modal label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px;color:#8a5b6f;}
+  .modal textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:14px;min-height:70px;resize:vertical;outline:none;font-family:inherit;background:#fff;color:var(--text);}
   .modal textarea:focus{border-color:var(--primary);}
   .modal .m-btns{display:flex;gap:8px;margin-top:16px;justify-content:flex-end;}
   .modal .m-btns button{padding:9px 18px;border-radius:9px;border:none;cursor:pointer;font-size:14px;}
-  .modal .m-btns .ok{background:var(--primary);color:#fff;}
-  .modal .m-btns .cancel{background:#eef0f6;color:#555;}
+  .modal .m-btns .ok{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;}
+  .modal .m-btns .cancel{background:rgba(255,150,185,.14);color:#a5798e;}
   .reflect-item{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;}
-  .reflect-item .r-date{font-weight:700;font-size:13px;margin-bottom:6px;}
-  .reflect-item .r-q{font-size:13px;margin:6px 0 2px;color:#777;}
-  .reflect-item .r-a{font-size:13px;color:#333;white-space:pre-wrap;}
+  .reflect-item .r-date{font-weight:700;font-size:13px;margin-bottom:6px;color:#e0608d;}
+  .reflect-item .r-q{font-size:13px;margin:6px 0 2px;color:#bd90a5;}
+  .reflect-item .r-a{font-size:13px;color:#6b4558;white-space:pre-wrap;}
 
-  /* 学习路线图 */
+  /* ===== 学习路线图 ===== */
   .rm-root{margin-bottom:16px;}
   .rm-root:last-child{margin-bottom:0;}
-  .rm-head{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:9px;cursor:pointer;user-select:none;background:#f7f8fc;margin-bottom:2px;}
-  .rm-head:hover{background:#eef2ff;}
+  .rm-head{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:9px;cursor:pointer;user-select:none;background:rgba(255,150,185,.08);margin-bottom:2px;}
+  .rm-head:hover{background:rgba(255,107,157,.14);}
   .rm-arrow{font-size:11px;color:var(--muted);transition:transform .15s;width:12px;display:inline-block;text-align:center;}
   .rm-arrow.open{transform:rotate(90deg);}
-  .rm-title{flex:1;font-size:14px;font-weight:600;color:#3a4050;}
-  .rm-head .rm-prog{font-size:12px;color:var(--muted);background:#fff;padding:2px 8px;border-radius:99px;border:1px solid var(--line);}
+  .rm-title{flex:1;font-size:14px;font-weight:600;color:#7a4b60;}
+  .rm-head .rm-prog{font-size:12px;color:var(--muted);background:rgba(255,255,255,.7);padding:2px 8px;border-radius:99px;border:1px solid var(--line);}
   .rm-node{margin-top:2px;}
-  .rm-leaf{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:#444;}
-  .rm-leaf:hover{background:#f2f5ff;}
-  .rm-check{width:18px;height:18px;border-radius:5px;border:2px solid #ccd1de;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-  .rm-check.checked{background:var(--primary);border-color:var(--primary);}
+  .rm-leaf{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:#8a5b6f;}
+  .rm-leaf:hover{background:rgba(255,158,203,.15);}
+  .rm-check{width:18px;height:18px;border-radius:5px;border:2px solid #e6bccb;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+  .rm-check.checked{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;box-shadow:0 0 8px rgba(255,107,157,.5);}
   .rm-check.checked::after{content:"✓";color:#fff;font-size:12px;font-weight:700;}
   .rm-leaf.done span:last-child{text-decoration:line-through;color:var(--done);}
+
+  footer{
+    text-align:center;margin-top:26px;font-size:13px;color:var(--muted);letter-spacing:1px;
+  }
+  footer .f-line{font-family:"STKaiti","KaiTi","Microsoft YaHei",serif;color:#e0608d;font-size:15px;}
+
+  /* ===== 彩蛋 ===== */
+  #maintitle{user-select:none;cursor:pointer;}
+  .greet-banner{
+    position:fixed;top:0;left:0;right:0;z-index:90;padding:14px 16px;
+    background:linear-gradient(135deg,#ff7eb0,#ff9a76);
+    color:#fff;font-size:15px;text-align:center;font-weight:700;letter-spacing:2px;
+    box-shadow:0 4px 20px rgba(255,107,157,.4);
+    transform:translateY(-100%);transition:transform .6s cubic-bezier(.22,1,.36,1);
+  }
+  .greet-banner.show{transform:translateY(0);}
+  .rain{position:fixed;inset:0;z-index:120;pointer-events:none;overflow:hidden;}
+  .rain .drop{position:absolute;top:-60px;animation-name:rainFall;animation-timing-function:linear;animation-fill-mode:forwards;}
+  @keyframes rainFall{to{transform:translateY(118vh) rotate(24deg);}}
+  .particle{position:absolute;width:10px;height:10px;border-radius:50%;pointer-events:none;animation:burstOut .9s ease-out forwards;}
+  @keyframes burstOut{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0;}}
+  .moon{cursor:pointer;transition:transform .2s,box-shadow .2s;}
+  .moon:hover{transform:scale(1.08);}
+  .moon.blink{animation:moonBlink .35s ease;}
+  @keyframes moonBlink{0%,100%{transform:scale(1,1);}50%{transform:scale(1,.14);}}
+  .zj{position:fixed;z-index:130;pointer-events:none;font-family:"STKaiti","KaiTi","Microsoft YaHei",serif;
+    font-size:22px;color:#e0608d;font-weight:700;text-shadow:0 0 12px rgba(255,150,185,.6);
+    animation:zjPop 2.2s ease-out forwards;}
+  @keyframes zjPop{0%{transform:translateY(0) scale(.4);opacity:0;}18%{transform:translateY(-16px) scale(1.15);opacity:1;}70%{opacity:1;}100%{transform:translateY(-70px) scale(1);opacity:0;}}
+  #test-caiden{position:fixed;right:12px;bottom:12px;z-index:99;width:34px;height:34px;border-radius:50%;
+    border:1px solid rgba(255,150,185,.4);background:rgba(255,255,255,.5);color:#e0608d;font-size:16px;
+    cursor:pointer;opacity:.35;transition:opacity .2s;}
+  #test-caiden:hover{opacity:1;}
 </style>
 </head>
 <body>
+<div class="greet-banner" id="greet-banner"></div>
+<button id="test-caiden" title="彩蛋测试">🎁</button>
+<div class="sky">
+  <div class="milkyway"></div>
+  <div class="moon" id="moon"></div>
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="meteor m1"></div>
+  <div class="meteor m2"></div>
+  <div class="meteor m3"></div>
+  <div class="bridge-area">
+    <svg class="bridge-svg" viewBox="0 0 640 150" preserveAspectRatio="none">
+      <path class="b-path" d="M30,130 Q320,4 610,130"/>
+      <path class="b-path2" d="M30,130 Q320,4 610,130"/>
+      <circle class="b-star" cx="30" cy="130" r="7"/>
+      <circle class="b-star" cx="610" cy="130" r="7"/>
+      <circle class="b-dot" cx="160" cy="85" r="2.4"/>
+      <circle class="b-dot" cx="320" cy="55" r="2.4"/>
+      <circle class="b-dot" cx="480" cy="85" r="2.4"/>
+    </svg>
+    <span class="magpie" style="left:16%;top:62%">🕊️</span>
+    <span class="magpie" style="left:38%;top:28%">🕊️</span>
+    <span class="magpie" style="left:58%;top:28%">🕊️</span>
+    <span class="magpie" style="left:78%;top:62%">🕊️</span>
+    <span class="b-lbl lbl-l">织女星</span>
+    <span class="b-lbl lbl-r">牵牛星</span>
+  </div>
+  <div id="stars"></div>
+</div>
+
 <div class="app">
   <header>
-    <h1>📋 我的计划清单</h1>
+    <h1 id="maintitle">💗 七夕快乐</h1>
+    <div class="sub">一起变得更好的我们 ❤️</div>
     <div class="date" id="date"></div>
     <div class="quote" id="quote"></div>
   </header>
@@ -159,7 +319,7 @@
         <option value="D">🗑️不重要不紧急</option>
       </select>
       <input type="number" id="mins" value="30" min="1" title="预估时长(分钟)">
-      <button id="add">添加</button>
+      <button id="add">💗 添加</button>
     </div>
 
     <div class="stats">
@@ -174,8 +334,8 @@
   <!-- 学习路线图 -->
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-      <h2 style="margin-bottom:0;">🗺️ 学习路线图</h2>
-      <button id="import-roadmap" style="padding:7px 14px;border:none;border-radius:9px;background:var(--primary);color:#fff;font-size:13px;cursor:pointer;">📥 一键导入为任务</button>
+      <h2 style="margin-bottom:0;">🌠 学习路线图</h2>
+      <button id="import-roadmap" style="padding:7px 14px;border:none;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;font-size:13px;cursor:pointer;">💌 一键导入为任务</button>
     </div>
     <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">点父项展开/折叠 · 点子项打勾 · 三套计划已预置</div>
     <div id="roadmap"></div>
@@ -183,7 +343,7 @@
 
   <!-- 任务列表 -->
   <div class="card">
-    <h2>任务</h2>
+    <h2>💫 任务</h2>
     <div class="filters">
       <button data-f="all" class="active">全部</button>
       <button data-f="active">进行中</button>
@@ -215,11 +375,11 @@
     <div class="heat" id="heat"></div>
     <div class="legend">
       少
-      <span class="sw" style="background:#eef0f6"></span>
-      <span class="sw" style="background:#c6e0b4"></span>
-      <span class="sw" style="background:#92cd96"></span>
-      <span class="sw" style="background:#4aa96c"></span>
-      <span class="sw" style="background:#1f7a4d"></span>
+      <span class="sw" style="background:#fff0f4"></span>
+      <span class="sw" style="background:#ffd9e4"></span>
+      <span class="sw" style="background:#ffb6c9"></span>
+      <span class="sw" style="background:#ff8fb0"></span>
+      <span class="sw" style="background:#ffb03a"></span>
       多
     </div>
   </div>
@@ -238,6 +398,11 @@
       <button id="reflect-history">📖 历史复盘</button>
     </div>
   </div>
+
+  <footer>
+    <div class="f-line">两情若是久长时，又岂在朝朝暮暮</div>
+    <div style="margin-top:6px;opacity:.8;">—— 秦观《鹊桥仙》 · 与你一起努力 ✨</div>
+  </footer>
 </div>
 
 <!-- 复盘弹窗 -->
@@ -275,10 +440,10 @@
   const OLD_KEY='my-plan-list';
 
   const PRIORITY={
-    A:{label:'🔥紧急重要',color:'#ff6b6b'},
-    B:{label:'📌重要不紧急',color:'#4f6ef7'},
-    C:{label:'⚡紧急不重要',color:'#f7b731'},
-    D:{label:'🗑️不重要不紧急',color:'#9aa0b0'},
+    A:{label:'🔥紧急重要',color:'#ff6b9d'},
+    B:{label:'📌重要不紧急',color:'#c9a7f0'},
+    C:{label:'⚡紧急不重要',color:'#f5a623'},
+    D:{label:'🗑️不重要不紧急',color:'#b58aa0'},
   };
   const ORDER=['A','B','C','D'];
 
@@ -487,18 +652,19 @@
     const maxDay=days.reduce((m,k)=>Math.max(m,dailyLog[k]),0);
     const s={totalDone,totalMinutes,maxStreak,maxDay};
     const ACH=[
-      {i:'🏅',n:'首次完成·小宝宝好厉害呀',d:'完成第一个任务',ok:s.totalDone>=1},
+      {i:'🌹',n:'一见倾心·小宝宝好厉害呀',d:'完成第一个任务',ok:s.totalDone>=1},
+      {i:'💞',n:'心心相印·小宝宝好厉害呀',d:'连续打卡 2 天',ok:s.maxStreak>=2},
       {i:'🔥',n:'小有坚持·小宝宝好厉害呀',d:'连续打卡 3 天',ok:s.maxStreak>=3},
-      {i:'🔥',n:'一周全勤',d:'连续打卡 7 天',ok:s.maxStreak>=7},
+      {i:'📅',n:'一周全勤',d:'连续打卡 7 天',ok:s.maxStreak>=7},
       {i:'🌋',n:'月度王者',d:'连续打卡 30 天',ok:s.maxStreak>=30},
       {i:'📚',n:'十项全能',d:'累计完成 10 个',ok:s.totalDone>=10},
-      {i:'📚',n:'五十达成',d:'累计完成 50 个',ok:s.totalDone>=50},
+      {i:'📖',n:'五十达成',d:'累计完成 50 个',ok:s.totalDone>=50},
       {i:'🏆',n:'百炼成钢',d:'累计完成 100 个',ok:s.totalDone>=100},
       {i:'💪',n:'小爆发',d:'单日完成 5 个',ok:s.maxDay>=5},
       {i:'🚀',n:'超神之日',d:'单日完成 10 个',ok:s.maxDay>=10},
       {i:'⏱️',n:'十小时',d:'累计学习 10 小时',ok:s.totalMinutes>=600},
-      {i:'⏱️',n:'五十小时',d:'累计学习 50 小时',ok:s.totalMinutes>=3000},
-      {i:'👑',n:'百时大佬·宝宝你好呀',d:'累计学习 100 小时',ok:s.totalMinutes>=6000},
+      {i:'⏰',n:'五十小时',d:'累计学习 50 小时',ok:s.totalMinutes>=3000},
+      {i:'👑',n:'百时大佬·小宝宝好厉害呀',d:'累计学习 100 小时',ok:s.totalMinutes>=6000},
     ];
     const el=$('ach');el.innerHTML='';
     ACH.forEach(a=>{
@@ -585,6 +751,13 @@
 
   // ---- 名言 ----
   const QUOTES=[
+    ['两情若是久长时，又岂在朝朝暮暮。','秦观《鹊桥仙》'],
+    ['金风玉露一相逢，便胜却人间无数。','秦观《鹊桥仙》'],
+    ['纤云弄巧，飞星传恨，银汉迢迢暗度。','秦观《鹊桥仙》'],
+    ['愿我如星君如月，夜夜流光相皎洁。','范成大'],
+    ['身无彩凤双飞翼，心有灵犀一点通。','李商隐'],
+    ['执子之手，与子偕老。','《诗经》'],
+    ['在天愿作比翼鸟，在地愿为连理枝。','白居易'],
     ['种一棵树最好的时间是十年前，其次是现在。',''],
     ['你不必等到厉害才开始，但你开始了才会厉害。',''],
     ['所有的坚持，都是因为热爱。',''],
@@ -598,18 +771,15 @@
     ['路虽远，行则将至；事虽难，做则必成。',''],
     ['把目标刻在心里，把坚持落在每一天。',''],
     ['自律给我自由。',''],
-    ['不要用战术上的勤奋，掩盖战略上的懒惰。',''],
     ['最好的时机是现在。',''],
     ['日拱一卒，功不唐捐。',''],
     ['怕什么真理无穷，进一寸有一寸的欢喜。','胡适'],
-    ['凡是过去，皆为序章。','莎士比亚'],
     ['千里之行，始于足下。','老子'],
     ['你只管努力，剩下的交给时间。',''],
-    ['读书不觉已春深，一寸光阴一寸金。',''],
     ['业精于勤，荒于嬉。','韩愈'],
-    ['比你优秀的人比你还努力。',''],
     ['苟日新，日日新，又日新。','《礼记》'],
     ['纵有疾风起，人生不言弃。',''],
+    ['一起努力，顶峰相见。',''],
   ];
   function renderQuote(){
     const start=new Date(new Date().getFullYear(),0,0);
@@ -702,6 +872,27 @@
   $('reflect-history').addEventListener('click',renderHistory);
   $('history-close').addEventListener('click',()=>$('history-modal').classList.remove('show'));
 
+  // ---- 七夕星空：闪烁星星 + 漂浮爱心 ----
+  (function(){
+    const sky=document.getElementById('stars');
+    const starColors=['#ff9ecb','#ffb3c6','#ffb03a','#c9a7f0'];
+    for(let i=0;i<60;i++){
+      const s=document.createElement('i');
+      const size=(Math.random()*2.5+1).toFixed(1);
+      s.className='star';
+      s.style.cssText=`left:${(Math.random()*100).toFixed(2)}%;top:${(Math.random()*100).toFixed(2)}%;width:${size}px;height:${size}px;background:${starColors[(Math.random()*starColors.length)|0]};animation-delay:${(Math.random()*4).toFixed(2)}s;animation-duration:${(2+Math.random()*3).toFixed(2)}s;`;
+      sky.appendChild(s);
+    }
+    const floats=['💖','💕','🌸','✨','💫','🕊️'];
+    for(let i=0;i<12;i++){
+      const h=document.createElement('i');
+      h.className='heart';
+      h.textContent=floats[(Math.random()*floats.length)|0];
+      h.style.cssText=`left:${(Math.random()*100).toFixed(2)}%;font-size:${(12+Math.random()*16).toFixed(0)}px;animation-delay:${(Math.random()*9).toFixed(2)}s;animation-duration:${(10+Math.random()*12).toFixed(2)}s;`;
+      sky.appendChild(h);
+    }
+  })();
+
   // ---- 启动 ----
   const week=['日','一','二','三','四','五','六'];
   const n=new Date();
@@ -715,6 +906,100 @@
   // 晚22点后且今日未复盘，自动弹窗
   if(n.getHours()>=22 && !reflections[todayKey()]){
     setTimeout(openReflect,600);
+  }
+
+  // ===== 彩蛋 =====
+  const EMOJI=['💖','💗','💕','💘','❤️','🌹','💐','✨'];
+  function rand(a,b){return a+Math.random()*(b-a);}
+  function spawnRain(n){
+    const box=document.createElement('div');
+    box.className='rain';
+    document.body.appendChild(box);
+    for(let i=0;i<n;i++){
+      const d=document.createElement('span');
+      d.className='drop';
+      d.textContent=EMOJI[(Math.random()*EMOJI.length)|0];
+      d.style.cssText=`left:${rand(0,100)}%;font-size:${rand(14,34).toFixed(0)}px;animation-duration:${rand(2.4,4.5).toFixed(2)}s;animation-delay:${rand(0,0.8).toFixed(2)}s;`;
+      box.appendChild(d);
+    }
+    setTimeout(()=>box.remove(),5400);
+  }
+  function spawnBurst(x,y){
+    const colors=['#ff6b9d','#ff9a76','#ffb03a','#c9a7f0','#ff8fb0','#ffd166'];
+    for(let i=0;i<22;i++){
+      const p=document.createElement('i');
+      p.className='particle';
+      const ang=Math.random()*Math.PI*2, dist=rand(40,140);
+      p.style.cssText=`left:${x}px;top:${y}px;background:${colors[(Math.random()*colors.length)|0]};width:${rand(6,12).toFixed(0)}px;height:${rand(6,12).toFixed(0)}px;--dx:${(Math.cos(ang)*dist).toFixed(0)}px;--dy:${(Math.sin(ang)*dist).toFixed(0)}px;animation-duration:${rand(.6,1).toFixed(2)}s;`;
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(),1100);
+    }
+  }
+  function spawnZj(){
+    const z=document.createElement('div');
+    z.className='zj';
+    z.textContent='梓菁宝宝 ❤️';
+    z.style.cssText=`left:${rand(15,70)}%;top:${rand(25,60)}%;`;
+    document.body.appendChild(z);
+    setTimeout(()=>z.remove(),2400);
+  }
+
+  // 点击月亮：眨眼 + 掉星星
+  $('moon').addEventListener('click',()=>{
+    const m=$('moon');
+    m.classList.remove('blink');void m.offsetWidth;m.classList.add('blink');
+    const r=m.getBoundingClientRect();
+    const sc=['#ffb03a','#ff9ecb','#fff'];
+    for(let i=0;i<4;i++){
+      const s=document.createElement('i');
+      s.className='particle';
+      s.style.cssText=`left:${r.left+rand(0,r.width)}px;top:${r.top+r.height/2}px;background:${sc[(Math.random()*sc.length)|0]};width:6px;height:6px;--dx:${rand(-28,28).toFixed(0)}px;--dy:${rand(60,140).toFixed(0)}px;animation-duration:${rand(.8,1.4).toFixed(2)}s;`;
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(),1600);
+    }
+  });
+
+  // 连点标题 5 次：烟花
+  let titleClicks=0, titleTimer=null;
+  $('maintitle').addEventListener('click',()=>{
+    titleClicks++;
+    clearTimeout(titleTimer);
+    titleTimer=setTimeout(()=>{titleClicks=0;},1200);
+    if(titleClicks>=5){
+      titleClicks=0;
+      const h=$('maintitle').getBoundingClientRect();
+      spawnBurst(h.left+h.width/2,h.top+h.height/2);
+      spawnBurst(rand(120,innerWidth-120),rand(120,420));
+      spawnBurst(rand(120,innerWidth-120),rand(120,420));
+    }
+  });
+
+  // 键盘暗号：按 2 → 梓菁宝宝；连按 5-2-0 → 爱心雨
+  let keyBuf=[];
+  document.addEventListener('keydown',e=>{
+    const t=e.target;
+    if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.isContentEditable))return;
+    if(e.key==='2')spawnZj();
+    keyBuf.push(e.key);
+    if(keyBuf.length>3)keyBuf.shift();
+    if(keyBuf.join('')==='520'){spawnRain(60);keyBuf=[];}
+  });
+
+  // 测试按钮：手动触发「七夕当天」彩蛋
+  $('test-caiden').addEventListener('click',()=>{
+    const b=$('greet-banner');
+    b.textContent='💗 七夕快乐！梓菁宝宝 ❤️';
+    b.classList.add('show');
+    spawnRain(70);
+  });
+
+  // 七夕当天自动祝福（8月19日 = 2026 七夕）
+  const now2=new Date();
+  if(now2.getMonth()===7 && (now2.getDate()===18 || now2.getDate()===19)){
+    const b=$('greet-banner');
+    b.textContent='💗 七夕快乐！梓菁宝宝 ❤️';
+    b.classList.add('show');
+    setTimeout(()=>spawnRain(70),700);
   }
 </script>
 </body>
